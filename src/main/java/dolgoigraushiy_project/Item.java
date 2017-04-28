@@ -1,10 +1,17 @@
 package dolgoigraushiy_project;
 
-/**
- * Created by Shmalman on 14.04.2017.
- */
+
 public class Item {
     int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public String getText() {
+        return text;
+    }
+
     String text;
 
     public Item(int id, String text) {

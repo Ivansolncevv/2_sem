@@ -1,51 +1,54 @@
 package dolgoigraushiy_project;
 
+import freemarker.cache.FileTemplateLoader;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-/**
- * Created by Shmalman on 21.04.2017.
- */
 public class ToDoServlet extends HttpServlet {
+
+    Configuration cfg = new Configuration (Configuration.VERSION_2_3_26);
+    {
+        try {
+            cfg.setTemplateLoader(new FileTemplateLoader(new File(".")));
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String what = req.getParameter("task");
-        list.add(what);
+        try {
+            list.add(what);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         resp.sendRedirect("/");
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        StringBuilder b= new StringBuilder();
-        List<Item> items= list.view();
-        for (Item i: items) {
-            b.append("<li>"+i.text+"</li>\n");
-        }
         resp.setCharacterEncoding("UTF-8");
-        resp.getWriter().write("<!DOCTYPE html>\n" +
-                "<html lang=\"en\">\n" +
-                "<head>\n" +
-                "    <meta charset = \"UTF-8\">\n" +
-                "    <title> Список задач  </title>\n" +
-                "</head>\n" +
-                "<body>\n" +
-                "<form method = \"post\">\n" +
-                "    задача: <input name=\"task\">\n" +
-                "    <input type= \"submit\"  value= \"Добавить\">\n" +
-                "</form>\n" +
-                "<ol>\n" +
-                b+
-                "</ol>\n" +
-                "</body>\n" +
-                "</html>");
+        try {
+            Template t= cfg.getTemplate("HTML.html");
+            Map<String, Object> map= new HashMap<>();
+            map.put("tasks", list.view());
+            t.process(map, resp.getWriter());
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp.sendError(500);
+        }
     }
     private ToDoList list=new ToDoList();
-    {
-        list.add ("пример");
-    }
 
 }

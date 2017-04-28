@@ -10,8 +10,9 @@
     <input type= "submit"  value= "Добавить">
 </form>
 <ol>
-    <li> Задача 1</li>
-    <li> Еще задача</li>
+    <#list tasks as t>
+     <li> ${t.text}</li>
+    </#list>
 </ol>
 </body>
 </html>

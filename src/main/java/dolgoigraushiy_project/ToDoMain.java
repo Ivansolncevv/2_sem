@@ -1,5 +1,6 @@
 package dolgoigraushiy_project;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -7,7 +8,7 @@ import java.util.Scanner;
  * Created by Shmalman on 14.04.2017.
  */
 public class ToDoMain {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         ToDoList list=new ToDoList();
         Scanner s=new Scanner(System.in);
         while (true){
