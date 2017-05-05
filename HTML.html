@@ -11,7 +11,13 @@
 </form>
 <ol>
     <#list tasks as t>
-     <li> ${t.text}</li>
+     <li>
+         <form method = "post" action = "delete">
+             ${t.text}
+     <input type="submit" value="УДАЛИТЬ"
+     <input name = "id" type="hidden" value="${t.id}"
+     </form>
+     </li>
     </#list>
 </ol>
 </body>

@@ -27,11 +27,16 @@ public class ToDoServlet extends HttpServlet {
     }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String what = req.getParameter("task");
-        try {
-            list.add(what);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        String uri= req.getRequestURI();
+        if ("/delete".equals(uri)) {
+
+        } else {
+            String what = req.getParameter("task");
+            try {
+                list.add(what);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         resp.sendRedirect("/");
     }
