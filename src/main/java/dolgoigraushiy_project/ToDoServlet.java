@@ -29,7 +29,13 @@ public class ToDoServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String uri= req.getRequestURI();
         if ("/delete".equals(uri)) {
-
+            String str= req.getParameter("id");
+            int id=Integer.parseInt(str);
+            try {
+                list.delete(id);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } else {
             String what = req.getParameter("task");
             try {

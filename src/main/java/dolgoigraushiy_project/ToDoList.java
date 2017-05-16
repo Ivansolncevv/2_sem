@@ -20,13 +20,14 @@ public class ToDoList {
         }
     }
 
-    void delete(int id) {
-        for (Item item : items) {
-            if (item.id == id) {
-                items.remove(item);
-                break;
+    void delete(int id) throws SQLException {
+        try (Connection c = DriverManager.getConnection("jdbc:h2:~/test")) {
+            try (PreparedStatement ps = c.prepareStatement("delete from todo where id=?")) {
+                ps.setInt(1, id);
+                ps.executeUpdate();
             }
         }
+
     }
 
     List<Item> view() throws SQLException {
